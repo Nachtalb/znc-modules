@@ -14,7 +14,7 @@
 # Author: Nachtalb <na@nachtalb.io>
 # License: LGPL-3.0 - https://www.gnu.org/licenses/lgpl-3.0.html
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __description__ = "A ZNC module to send Telegram notifications on mentions."
 __author__ = "Nachtalb <na@nachtalb.io>"
 __license__ = "LGPL-3.0"
@@ -44,14 +44,16 @@ class telegram_mentions(znc.Module):
     args_help_text = "Expected args: bot_token=TOKEN;chat_id=ID;mentions=mention1,mention2;thread_message_id=ID"
 
     def OnLoad(self, args, message):
-        if not CASE_SENSITIVE:
-            args = args.lower()
-
         args_dict = dict(arg.split("=") for arg in args.split(";") if "=" in arg)
         self.bot_token = args_dict.get("bot_token")
         self.chat_id = args_dict.get("chat_id")
-        self.mentions = list(filter(None, args_dict.get("mentions", "").split(",")))
         self.thread_message_id = args_dict.get("thread_message_id")
+
+        mentions = args_dict.get("mentions", "")
+        if not CASE_SENSITIVE:
+            mentions = mentions.lower()
+
+        self.mentions = list(filter(None, mentions.split(",")))
 
         if not self.mentions:
             self.mentions = [self.GetNetwork().GetUser().GetNick()]
