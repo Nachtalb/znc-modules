@@ -23,6 +23,8 @@ To use any of the modules in this collection:
 - `telegram_first_pm.py`: Sends Telegram notifications on the first private
   message from a user since activation of the module. Detailed usage
   instructions are available at the top of the module file.
+- `weather.py`: Provides weather information for a given location. Detailed
+  usage instructions are available at the top of the module file.
 
 ## License
 
